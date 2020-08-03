@@ -142,6 +142,24 @@ function drawSnake(){
   context.fillRect(snake.x, snake.y, 10, 10);
   context.strokeRect(snake.x, snake.y, 10, 10);
   
+  
+  
+   console.log(snake.cells.length)
+  for (let index = 0; index < snake.cells.length; index++) {
+    let curr_cell = snake.cells[index];
+    console.log(curr_cell, 'this is curr')
+    if (index == 0){ //if the current cell is the head, draw the avatar instead of a box
+      drawCellWithBitmoji(curr_cell);
+    } else {
+      // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+      context.fillStyle = snake.color;
+      context.fillRect(curr_cell.x, curr_cell.y, grid-1, grid-1);
+    }
+  }
+  
+  
+ 
+  
 }
 
 /*drawCellWithBitmoji
@@ -159,13 +177,17 @@ function drawCellWithBitmoji(cell){
 
 
 // function snakeTouchesApple(){
-//   let head = snake.cells[0];
-//   if (head.x === apple.x && head.y === apple.y){
-//     return true;
-//   }
-//   else {
-//     return false;
-//   }
+  for (let i = 0; i < snake.cells.length; i++){
+    let curr_cell = snake.cells[i];
+    if (curr_cell.x === pomme.x && curr_cell.y === pomme.y) {
+      return true;
+    }
+  }
+  return false;
+}
+​
+function lengthenSnakeByOne(){
+  snake.currentLength = snake.currentLength + 1;
   
 // }
 
@@ -191,6 +213,17 @@ returns true (the snake crashed into itself) or false (the snake is not crashing
 */
 function checkCrashItself(){
   /* TO DO */
+    for (let i = 0; i < snake.cells.length; i++) {
+    let curr_cell = snake.cells[i];
+    for (let j = i + 1; j < snake.cells.length; j++){
+      let another_cell = snake.cells[j];
+      //if the current cell occupies same space as another cell, reset game
+      if (curr_cell.x === another_cell.x && curr_cell.y === another_cell.y) {
+        alert("GAME OVER");
+        document.location.reload();
+      }
+    }
+  }
 }
 
 /*endGame
